@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: deploy mysql replication
+      run: |
+        bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz

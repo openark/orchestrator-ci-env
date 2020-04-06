@@ -1,0 +1,1 @@
+`dbdeployer` binaries under this directory are part of [dbdeployer](https://github.com/datacharmer/dbdeployer), created by [@datacharmer](https://github.com/datacharmer). The are available at https://github.com/datacharmer/dbdeployer/releases
