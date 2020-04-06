@@ -13,4 +13,5 @@ jobs:
 
     - name: deploy mysql replication
       run: |
+        mkdir -p /home/runner/opt/mysql
         bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
