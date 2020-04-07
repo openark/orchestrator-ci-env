@@ -15,14 +15,13 @@ jobs:
       run: |
         mkdir -p /home/runner/opt/mysql
         bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
-        bin/linux/dbdeployer deploy replication 5.7.26 -n 4 \
+        bin/linux/dbdeployer deploy replication 5.7.26 \
+          --sandbox-directory="57" \
+          -n 4 \
           --gtid \
+          --repl-crash-safe \
           --my-cnf-options="report_host=ci-host" \
           --my-cnf-options="log_bin" \
           --my-cnf-options="log_slave_updates" \
           --my-cnf-options="performance_schema=0" \
-          --my-cnf-options="innodb_buffer_pool_size=32M" \
-          --my-cnf-options="master_info_repository=table" \
-          --my-cnf-options="relay_log_info_repository=table" \
-          --repl-crash-safe \
-          --sandbox-directory="57"
+          --my-cnf-options="innodb_buffer_pool_size=32M"
