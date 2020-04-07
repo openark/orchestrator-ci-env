@@ -17,6 +17,7 @@ jobs:
         bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
         bin/linux/dbdeployer deploy replication 5.7.26 \
           --sandbox-directory="57" \
+          --port=10570
           -n 4 \
           --gtid \
           --repl-crash-safe \
