@@ -33,7 +33,7 @@ jobs:
       run: |
         sudo ls -l /etc/hosts
         sudo cat /etc/hosts
-        script/run-consul || sudo systemctl status consul || sudo journalctl -u consul.service || sudo journalctl -xe
+        script/run-consul
 
     - name: test consul service
       run: |
