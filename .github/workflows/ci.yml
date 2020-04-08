@@ -11,6 +11,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: unwrap consul
+      run: |
+        cd bin/linux
+        gunzip consul.gz
+
+    - name: test consul
+      run: |
+        bin/linux/consul --version
+
     - name: deploy mysql replication
       run: |
         mkdir -p /home/runner/opt/mysql
