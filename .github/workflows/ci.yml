@@ -27,6 +27,7 @@ jobs:
     - name: install haproxy
       run: |
         sudo apt-get -y install haproxy
+        dpkg-query -L haproxy
 
     - name: deploy mysql replication
       run: |
