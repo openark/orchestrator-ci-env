@@ -11,6 +11,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: unwrap consul
+      run: |
+        cd bin/linux
+        gunzip consul.gz
+
+    - name: test consul
+      run: |
+        bin/linux/consul --version
+
+    - name: check haproxy
+      run: |
+        apt-cache madison haproxy
+
+    - name: install haproxy
+      run: |
+        sudo apt-get -y install haproxy
+
     - name: deploy mysql replication
       run: |
         mkdir -p /home/runner/opt/mysql
@@ -26,20 +43,3 @@ jobs:
           --my-cnf-options="log_slave_updates" \
           --my-cnf-options="performance_schema=0" \
           --my-cnf-options="innodb_buffer_pool_size=32M"
-
-    - name: unwrap consul
-      run: |
-        (cd bin/linux && gunzip consul.gz)
-        bin/linux/consul --version
-
-    - name: test consul
-      run: |
-        bin/linux/consul --version
-
-    - name: check haproxy
-      run: |
-        apt-cache madison haproxy
-
-    - name: install haproxy
-      run: |
-        sudo apt-get -y install haproxy
