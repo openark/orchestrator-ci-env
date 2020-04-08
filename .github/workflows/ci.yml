@@ -26,3 +26,7 @@ jobs:
           --my-cnf-options="log_slave_updates" \
           --my-cnf-options="performance_schema=0" \
           --my-cnf-options="innodb_buffer_pool_size=32M"
+
+    - name: test consul
+      run: |
+        bin/linux/consul --version
