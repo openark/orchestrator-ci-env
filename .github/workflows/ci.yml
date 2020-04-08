@@ -20,15 +20,6 @@ jobs:
       run: |
         bin/linux/consul --version
 
-    - name: check haproxy
-      run: |
-        apt-cache madison haproxy
-
-    - name: install haproxy
-      run: |
-        sudo apt-get -y install haproxy
-        dpkg-query -L haproxy
-
     - name: deploy mysql replication
       run: |
         mkdir -p /home/runner/opt/mysql
