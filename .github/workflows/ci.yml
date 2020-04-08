@@ -30,3 +30,7 @@ jobs:
     - name: test consul
       run: |
         bin/linux/consul --version
+
+    - name: check haproxy
+      run: |
+        apt-cache madison haproxy
