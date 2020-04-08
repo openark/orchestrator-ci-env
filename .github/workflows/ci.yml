@@ -31,9 +31,7 @@ jobs:
 
     - name: start consul service
       run: |
-        sudo ls -l /etc/hosts
-        sudo cat /etc/hosts
-        script/run-consul
+        script/run-consul || sudo journalctl -u consul.service
 
     - name: test consul service
       run: |
