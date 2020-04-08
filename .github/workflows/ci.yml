@@ -29,6 +29,14 @@ jobs:
       run: |
         script/deploy-consul
 
+    - name: start consul service
+      run: |
+        script/run-consul
+
+    - name: test consul service
+      run: |
+        sudo systemctl status consul
+
     - name: deploy mysql replication
       run: |
         script/deploy-replication
