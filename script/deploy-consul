@@ -1,0 +1,21 @@
+#!/bin/bash
+
+sudo cp bin/linux/consul /usr/local/bin/
+sudo cp files/etc/systemd/consul.service /etc/systemd/system/
+
+sudo useradd --system --home /etc/consul.d --shell /bin/false consul
+sudo mkdir --parents /opt/consul
+sudo chown --recursive consul:consul /opt/consul
+
+sudo mkdir --parents /etc/consul.d
+sudo touch /etc/consul.d/consul.hcl
+sudo chown --recursive consul:consul /etc/consul.d
+sudo chmod 640 /etc/consul.d/consul.hcl
+
+sudo mkdir --parents /etc/consul.d
+sudo touch /etc/consul.d/server.hcl
+sudo chown --recursive consul:consul /etc/consul.d
+sudo chmod 640 /etc/consul.d/server.hcl
+
+sudo cat files/etc/consul.d/consul.hcl > /etc/consul.d/consul.hcl
+sudo cat files/etc/consul.d/server.hcl > /etc/consul.d/server.hcl

@@ -16,7 +16,7 @@ jobs:
         cd bin/linux
         gunzip consul.gz
 
-    - name: test consul
+    - name: test consul binary
       run: |
         bin/linux/consul --version
 
@@ -24,6 +24,10 @@ jobs:
       run: |
         cd bin/linux
         gunzip dbdeployer.gz
+
+    - name: deploy consul service
+      run: |
+        script/deploy-consul
 
     - name: deploy mysql replication
       run: |
