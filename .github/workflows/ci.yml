@@ -20,6 +20,11 @@ jobs:
       run: |
         bin/linux/consul --version
 
+    - name: unwrap dbdeployer
+      run: |
+        cd bin/linux
+        gunzip dbdeployer.gz
+
     - name: deploy mysql replication
       run: |
         mkdir -p /home/runner/opt/mysql
