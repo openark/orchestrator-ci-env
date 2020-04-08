@@ -27,6 +27,11 @@ jobs:
           --my-cnf-options="performance_schema=0" \
           --my-cnf-options="innodb_buffer_pool_size=32M"
 
+    - name: unwrap consul
+      run: |
+        (cd bin/linux && gunzip consul.gz)
+        bin/linux/consul --version
+
     - name: test consul
       run: |
         bin/linux/consul --version
@@ -34,3 +39,7 @@ jobs:
     - name: check haproxy
       run: |
         apt-cache madison haproxy
+
+    - name: install haproxy
+      run: |
+        sudo apt-get -y install haproxy
