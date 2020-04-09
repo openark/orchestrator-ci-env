@@ -36,6 +36,9 @@ jobs:
     - name: test consul service
       run: |
         sudo systemctl status consul
+        kvkey="/ci/test/val"
+        consul kv put $kvkey "$((16+1))"
+        consul kv get $kvkey
 
     - name: deploy mysql replication
       run: |
