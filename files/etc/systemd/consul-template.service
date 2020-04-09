@@ -9,7 +9,7 @@ User=consul
 Group=consul
 EnvironmentFile=-/etc/sysconfig/consul-template
 Restart=on-failure
-ExecStart=/usr/local/sbin/consul-template $OPTIONS -config=/etc/consul-template.d
+ExecStart=/usr/bin/consul-template $OPTIONS -config=/etc/consul-template.d
 KillSignal=SIGINT
 KillMode=process
 Restart=on-failure
