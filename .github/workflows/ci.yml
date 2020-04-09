@@ -57,7 +57,7 @@ jobs:
 
     - name: test consul template binary
       run: |
-        /usr/bin/consul-template --version
+        /usr/local/bin/consul-template --version
 
     - name: deploy mysql replication
       run: |
