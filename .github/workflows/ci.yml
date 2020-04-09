@@ -36,9 +36,21 @@ jobs:
     - name: test consul service
       run: |
         sudo systemctl status consul
-        kvkey="/ci/test/val"
+        kvkey="ci/test/val"
         consul kv put $kvkey "$((16+1))"
         consul kv get $kvkey
+
+    - name: unwrap consul-template
+      run: |
+        cd bin/linux
+        gunzip consul-template.gz
+
+    - name: deploy consul-template service
+      run: |
+        script/deploy-consul-template
+
+    - name: test consul template binary
+        /usr/bin/consul-template --version
 
     - name: deploy mysql replication
       run: |

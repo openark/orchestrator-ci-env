@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo cp bin/linux/consul-template /usr/local/bin/
+sudo cp files/etc/systemd/consul-template.service /etc/systemd/system/
