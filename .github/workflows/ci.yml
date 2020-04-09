@@ -36,6 +36,8 @@ jobs:
     - name: test consul service
       run: |
         sudo systemctl status consul
+        echo "sleeping to allow consul to elect leader"
+        sleep 3
         kvkey="ci/test/val"
         consul kv put $kvkey "$((16+1))"
         val="$(consul kv get $kvkey)"
