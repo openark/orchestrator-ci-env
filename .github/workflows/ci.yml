@@ -38,7 +38,13 @@ jobs:
         sudo systemctl status consul
         kvkey="ci/test/val"
         consul kv put $kvkey "$((16+1))"
-        consul kv get $kvkey
+        val="$(consul kv get $kvkey)"
+        if [ "$val" == "17" ] ; then
+          echo "Validated KV write+read"
+        else
+          echo "Failed validating consul KV"
+          exit 1
+        fi
 
     - name: unwrap consul-template
       run: |
