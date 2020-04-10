@@ -93,8 +93,8 @@ jobs:
 
     - name: test consul-template template
       run: |
-        sleep 15
         cat /etc/haproxy/haproxy.cfg
+        sudo journalctl -u consul-template.service
         grep 10570 /etc/haproxy/haproxy.cfg
 
     - name: deploy mysql replication
