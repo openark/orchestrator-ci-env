@@ -7,4 +7,4 @@ sudo cp bin/linux/consul-template /usr/local/bin/
 sudo cp files/etc/systemd/consul-template.service /etc/systemd/system/
 
 sudo chown --recursive consul:consul /etc/consul-template.d
-sudo chown consul /etc/haproxy/haproxy.cfg
+sudo chown --recursive consul /etc/haproxy/
