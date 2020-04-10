@@ -70,7 +70,7 @@ jobs:
 
     - name: test consul-template service
       run: |
-        sudo systemctl status consul-template
+        sudo systemctl status consul-template || sudo journalctl -u consul-template.service
 
     - name: test consul-template template
       run: |
