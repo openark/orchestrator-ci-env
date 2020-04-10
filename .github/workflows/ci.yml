@@ -69,6 +69,10 @@ jobs:
         sudo apt-cache madison haproxy
         sudo apt-get update && sudo apt-get install -y haproxy
 
+    - name: test haproxy files
+      run: |
+        sudo dpkg-query -L haproxy
+
     - name: start consul-template service
       run: |
         script/run-consul-template || sudo journalctl -u consul-template.service
