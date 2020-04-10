@@ -1,4 +1,9 @@
 #!/bin/bash
 
+sudo mkdir -p /etc/consul-template.d
+sudo cp files/etc/consul-template.d/haproxy.ctmpl /tmp/
+
 sudo cp bin/linux/consul-template /usr/local/bin/
 sudo cp files/etc/systemd/consul-template.service /etc/systemd/system/
+
+sudo chown --recursive consul:consul /etc/consul-template.d

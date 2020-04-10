@@ -36,6 +36,9 @@ jobs:
     - name: test consul service
       run: |
         sudo systemctl status consul
+
+    - name: test consul kv
+      run: |
         echo "sleeping to allow consul to elect leader"
         sleep 3
         kvkey="ci/test/val"
@@ -60,6 +63,19 @@ jobs:
     - name: test consul template binary
       run: |
         /usr/local/bin/consul-template --version
+
+    - name: start consul-template service
+      run: |
+        script/run-consul-template || sudo journalctl -u consul-template.service
+
+    - name: test consul-template service
+      run: |
+        sudo systemctl status consul-template
+
+    - name: test consul-template template
+      run: |
+        ls -l /tmp/haproxy.*
+        cat /tmp/haproxy.*
 
     - name: deploy mysql replication
       run: |
