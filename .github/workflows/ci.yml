@@ -66,7 +66,7 @@ jobs:
 
     - name: install haproxy
       run: |
-        sudo apt-get cache madison haproxy
+        sudo apt-cache madison haproxy
         sudo apt-get install -y haproxy
 
     - name: start consul-template service
