@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[ -f bin/linux/dbdeployer.gz ] && (cd bin/linux ; gunzip dbdeployer.gz)
+
 mkdir -p /home/runner/opt/mysql
 bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
 bin/linux/dbdeployer deploy replication 5.7.26 \

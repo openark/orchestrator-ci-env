@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[ -f bin/linux/consul.gz ] && (cd bin/linux ; gunzip consul.gz)
+
 sudo cp bin/linux/consul /usr/local/bin/
 sudo cp files/etc/systemd/consul.service /etc/systemd/system/
 
