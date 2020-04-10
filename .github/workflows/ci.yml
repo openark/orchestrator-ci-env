@@ -57,8 +57,7 @@ jobs:
 
     - name: test haproxy files
       run: |
-        sudo dpkg-query -L haproxy
-        cat /etc/haproxy/haproxy.cfg
+        ls -l /etc/haproxy/haproxy.cfg
 
     - name: start haproxy service
       run: |
