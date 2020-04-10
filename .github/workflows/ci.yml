@@ -74,6 +74,7 @@ jobs:
 
     - name: test consul-template template
       run: |
+        sleep 5
         ls -l /tmp/haproxy.*
         cat /tmp/haproxy.*
 
