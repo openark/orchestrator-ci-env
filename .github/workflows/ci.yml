@@ -70,6 +70,10 @@ jobs:
       run: |
         sudo systemctl status consul-template || (sudo journalctl -u consul-template.service ; exit 1)
 
+    - name: test consul-template deployment
+      run: |
+        ls -l /etc/haproxy/haproxy.cfg
+
     - name: populate consul kv
       run: |
         echo "sleeping to allow consul to elect leader"
@@ -89,8 +93,7 @@ jobs:
     - name: test consul-template template
       run: |
         cat /etc/haproxy/haproxy.cfg
-        sudo journalctl -u consul-template.service
-        grep 10570 /etc/haproxy/haproxy.cfg
+        grep 10570 /etc/haproxy/haproxy.cfg || (sudo journalctl -u consul-template.service ; exit 1)
 
     - name: unwrap dbdeployer
       run: |
