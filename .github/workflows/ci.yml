@@ -93,7 +93,7 @@ jobs:
 
     - name: test consul-template template
       run: |
-        sleep 3
+        sleep 15
         cat /etc/haproxy/haproxy.cfg
         grep 10570 /etc/haproxy/haproxy.cfg
 
