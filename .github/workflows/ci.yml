@@ -96,6 +96,7 @@ jobs:
       run: |
         sleep 3
         cat /etc/haproxy/haproxy.cfg
+        grep 10570 /etc/haproxy/haproxy.cfg
 
     - name: deploy mysql replication
       run: |
