@@ -13,8 +13,7 @@ jobs:
 
     - name: install haproxy
       run: |
-        sudo apt-cache madison haproxy
-        sudo apt-get update && sudo apt-get install -y haproxy
+        script/deploy-haproxy
 
     - name: test haproxy files
       run: |
@@ -22,7 +21,7 @@ jobs:
 
     - name: start haproxy service
       run: |
-        sudo systemctl start haproxy
+        script/run-haproxy || (sudo journalctl -u haproxy.service ; exit 1)
 
     - name: test haproxy service
       run: |
@@ -43,7 +42,7 @@ jobs:
 
     - name: start consul service
       run: |
-        script/run-consul || sudo journalctl -u consul.service
+        script/run-consul || (sudo journalctl -u consul.service ; exit 1)
 
     - name: test consul service
       run: |
