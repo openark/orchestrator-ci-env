@@ -72,6 +72,15 @@ jobs:
     - name: test haproxy files
       run: |
         sudo dpkg-query -L haproxy
+        cat /etc/haproxy/haproxy.cfg
+
+    - name: start haproxy service
+      run: |
+        sudo systemctl start haproxy
+
+    - name: test haproxy service
+      run: |
+        sudo systemctl status haproxy || sudo journalctl -u haproxy.service
 
     - name: start consul-template service
       run: |
