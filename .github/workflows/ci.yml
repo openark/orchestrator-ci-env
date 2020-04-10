@@ -37,19 +37,6 @@ jobs:
       run: |
         sudo systemctl status consul
 
-    - name: test consul kv
-      run: |
-        echo "sleeping to allow consul to elect leader"
-        sleep 3
-        consul kv put "mysql/master/ci/hostname" "127.0.0.1"
-        consul kv put "mysql/master/ci/port" "3306"
-        if consul kv get "mysql/master/ci/port" | grep -q 3306 ; then
-          echo "Validated KV write+read"
-        else
-          echo "Failed validating consul KV"
-          exit 1
-        fi
-
     - name: unwrap consul-template
       run: |
         cd bin/linux
@@ -88,6 +75,22 @@ jobs:
     - name: test consul-template service
       run: |
         sudo systemctl status consul-template || sudo journalctl -u consul-template.service
+
+    - name: populate consul kv
+      run: |
+        echo "sleeping to allow consul to elect leader"
+        sleep 3
+        consul kv put "mysql/master/ci/hostname" "127.0.0.1"
+        consul kv put "mysql/master/ci/port" "10570"
+
+    - name: test consul kv
+      run: |
+        if consul kv get "mysql/master/ci/port" | grep -q 10570 ; then
+          echo "Validated KV write+read"
+        else
+          echo "Failed validating consul KV"
+          exit 1
+        fi
 
     - name: test consul-template template
       run: |
