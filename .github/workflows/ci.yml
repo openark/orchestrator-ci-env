@@ -80,6 +80,7 @@ jobs:
         sleep 3
         consul kv put "mysql/master/ci/hostname" "127.0.0.1"
         consul kv put "mysql/master/ci/port" "10570"
+        consul kv put "citest" "17"
 
     - name: test consul kv
       run: |
@@ -89,6 +90,7 @@ jobs:
           echo "Failed validating consul KV"
           exit 1
         fi
+        curl http://127.0.0.1:8500/kv/citest
 
     - name: test consul-template template
       run: |
