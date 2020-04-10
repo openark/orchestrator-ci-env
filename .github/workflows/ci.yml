@@ -94,6 +94,8 @@ jobs:
           exit 1
         fi
         curl http://127.0.0.1:8500/v1/kv/citest
+        curl http://127.0.0.1:8500/v1/kv/citest | jq .Value
+        curl http://127.0.0.1:8500/v1/kv/citest | jq .Value | base64 -decode
 
     - name: test consul-template template
       run: |
