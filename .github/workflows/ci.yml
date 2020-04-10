@@ -64,6 +64,11 @@ jobs:
       run: |
         /usr/local/bin/consul-template --version
 
+    - name: install haproxy
+      run: |
+        sudo apt-get cache madison haproxy
+        sudo apt-get install -y haproxy
+
     - name: start consul-template service
       run: |
         script/run-consul-template || sudo journalctl -u consul-template.service
