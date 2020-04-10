@@ -65,15 +65,15 @@ jobs:
 
     - name: test haproxy service
       run: |
-        sudo systemctl status haproxy || sudo journalctl -u haproxy.service
+        sudo systemctl status haproxy || (sudo journalctl -u haproxy.service ; exit 1)
 
     - name: start consul-template service
       run: |
-        script/run-consul-template || sudo journalctl -u consul-template.service
+        script/run-consul-template || (sudo journalctl -u consul-template.service ; exit 1)
 
     - name: test consul-template service
       run: |
-        sudo systemctl status consul-template || sudo journalctl -u consul-template.service
+        sudo systemctl status consul-template || (sudo journalctl -u consul-template.service ; exit 1)
 
     - name: populate consul kv
       run: |
