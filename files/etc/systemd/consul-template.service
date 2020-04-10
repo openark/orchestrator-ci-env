@@ -9,7 +9,7 @@ User=consul
 Group=consul
 EnvironmentFile=-/etc/sysconfig/consul-template
 Restart=on-failure
-ExecStart=/usr/local/bin/consul-template -config=/etc/consul-template.d -template "/tmp/haproxy.ctmpl:/tmp/haproxy.conf"
+ExecStart=/usr/local/bin/consul-template -config=/etc/consul-template.d -template "/etc/consul-template.d/haproxy.ctmpl:/etc/haproxy/haproxy.cfg"
 KillSignal=SIGINT
 KillMode=process
 Restart=on-failure

@@ -1,1 +1,44 @@
-val is {{ key "ci/test/val" }}
+global
+	log /dev/log	local0
+	log /dev/log	local1 notice
+	chroot /var/lib/haproxy
+	stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+	stats timeout 30s
+	user haproxy
+	group haproxy
+	daemon
+
+	# Default SSL material locations
+	ca-base /etc/ssl/certs
+	crt-base /etc/ssl/private
+
+defaults
+	log	    global
+	mode	  http
+	option	httplog
+	option	dontlognull
+  timeout connect 500
+  timeout client  500
+  timeout server  500
+
+	errorfile 400 /etc/haproxy/errors/400.http
+	errorfile 403 /etc/haproxy/errors/403.http
+	errorfile 408 /etc/haproxy/errors/408.http
+	errorfile 500 /etc/haproxy/errors/500.http
+	errorfile 502 /etc/haproxy/errors/502.http
+	errorfile 503 /etc/haproxy/errors/503.http
+	errorfile 504 /etc/haproxy/errors/504.http
+
+frontend mysql_rw
+  bind  127.0.0.1:13306
+  mode tcp
+  default_backend mysql_rw_main
+  maxconn 200
+
+backend mysql_rw_main
+  retries 1
+  timeout connect 1000
+  timeout check 300
+
+  default-server fall 2 inter 5000 rise 1 downinter 5000 on-marked-down shutdown-sessions weight 10
+  server ci-master-backend {{ key "mysql/master/ci/hostname" }}:{{ key "mysql/master/ci/port" }}
