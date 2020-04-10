@@ -5,8 +5,8 @@ After=network-online.target consul.service
 
 [Service]
 Type=simple
-User=consul
-Group=consul
+#User=consul
+#Group=consul
 EnvironmentFile=-/etc/sysconfig/consul-template
 Restart=on-failure
 ExecStart=/usr/local/bin/consul-template -template "/etc/consul-template.d/haproxy.ctmpl:/etc/haproxy/haproxy.cfg:sudo service haproxy reload"
