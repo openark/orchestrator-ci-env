@@ -8,7 +8,7 @@ sudo mkdir --parents /opt/consul
 sudo chown --recursive consul:consul /opt/consul
 
 sudo mkdir --parents /etc/consul.d
-sudo cp files/etc/consul.d/consul.hcl /etc/consul.d/
+sudo cp files/etc/consul.d/consul.json /etc/consul.d/
 sudo cp files/etc/consul.d/server.json /etc/consul.d/
 
 sudo chown --recursive consul:consul /etc/consul.d
