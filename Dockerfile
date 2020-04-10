@@ -1,7 +1,7 @@
 FROM jrei/systemd-ubuntu
 
 RUN apt-get update -q -y
-RUN apt-get install -y sudo
+RUN apt-get install -y sudo haproxy
 
 COPY . .
 
