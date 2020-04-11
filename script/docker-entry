@@ -1,0 +1,18 @@
+#!/bin/bash
+
+script/deploy-replication
+script/run-haproxy
+script/run-consul
+script/run-consul-template
+
+sleep 3
+consul kv put "mysql/master/ci/hostname" "127.0.0.1"
+consul kv put "mysql/master/ci/port" "10571"
+sleep 3
+
+PATH=$PATH:~/opt/mysql/5.7.26/bin/
+
+mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@report_port"
+mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port"
+
+/bin/bash
