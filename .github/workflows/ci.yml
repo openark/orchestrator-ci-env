@@ -85,17 +85,17 @@ jobs:
     - name: populate consul kv
       run: |
         consul kv put "mysql/master/ci/hostname" "127.0.0.1"
-        consul kv put "mysql/master/ci/port" "10570"
+        consul kv put "mysql/master/ci/port" "10571"
 
     - name: test consul kv
       run: |
-        if consul kv get "mysql/master/ci/port" | grep -q 10570 ; then
+        if consul kv get "mysql/master/ci/port" | grep -q 10571 ; then
           echo "Validated KV write+read"
         else
           echo "Failed validating consul KV"
           exit 1
         fi
-        if curl -s http://127.0.0.1:8500/v1/kv/mysql/master/ci/port | jq -r '.[].Value' | base64 --decode | grep -q 10570 ; then
+        if curl -s http://127.0.0.1:8500/v1/kv/mysql/master/ci/port | jq -r '.[].Value' | base64 --decode | grep -q 10571 ; then
           echo "Validated KV read via HTTP API"
         else
           echo "Failed validating consul KV via HTTP API"
@@ -105,7 +105,7 @@ jobs:
     - name: test consul-template template
       run: |
         cat /etc/haproxy/haproxy.cfg
-        grep 10570 /etc/haproxy/haproxy.cfg || (sudo journalctl -u consul-template.service ; exit 1)
+        grep 10571 /etc/haproxy/haproxy.cfg || (sudo journalctl -u consul-template.service ; exit 1)
 
     - name: unwrap dbdeployer
       run: |
@@ -119,7 +119,7 @@ jobs:
     - name: test mysql master
       run: |
         ps aux | grep mysqld
-        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10570 -e "select @@port, @@report_port, @@report_host"
+        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10571 -e "select @@port, @@report_port, @@report_host"
 
     - name: test haproxy routing to mysql master
       run: |
