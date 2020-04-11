@@ -118,8 +118,8 @@ jobs:
 
     - name: test mysql master
       run: |
-        mysql -uci -pci -h 127.0.0.1 --port 10571 -e "select @@port, @@report_port, @@report_host"
+        mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@report_port" | grep -q 10571
 
     - name: test haproxy routing to mysql master
       run: |
-        time mysql -uci -pci -h 127.0.0.1 --port 13306 -e "select @@port, @@report_port, @@report_host"
+        time mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port" | grep -q 10571
