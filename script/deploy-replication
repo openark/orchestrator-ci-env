@@ -11,6 +11,7 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --gtid \
   --repl-crash-safe \
   --my-cnf-options="report_host=127.0.0.1" \
+  --my-cnf-options="bind_address=0.0.0.0" \
   --my-cnf-options="log_bin" \
   --my-cnf-options="log_slave_updates" \
   --my-cnf-options="performance_schema=0" \
