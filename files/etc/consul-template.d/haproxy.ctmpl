@@ -17,7 +17,7 @@ defaults
   timeout server  1000
 
 frontend mysql_rw
-  bind  127.0.0.1:13306
+  bind  0.0.0.0:13306
   mode tcp
   default_backend mysql_rw_main
   maxconn 200
