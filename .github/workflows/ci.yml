@@ -121,6 +121,10 @@ jobs:
         ps aux | grep mysqld
         mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10571 -e "select @@port, @@report_port, @@report_host"
 
+    - name: test haproxy routing to mysql master debug
+      run: |
+        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 13305 -e "select @@port, @@report_port, @@report_host"
+
     - name: test haproxy routing to mysql master
       run: |
         mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 13306 -e "select @@port, @@report_port, @@report_host"
