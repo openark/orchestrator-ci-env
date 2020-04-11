@@ -108,3 +108,11 @@ jobs:
     - name: deploy mysql replication
       run: |
         script/deploy-replication
+
+    - name: test mysql master
+      run: |
+        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10570 -e "select @@port"
+
+    - name: test haproxy routing to mysql master
+      run: |
+        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 13306 -e "select @@port"
