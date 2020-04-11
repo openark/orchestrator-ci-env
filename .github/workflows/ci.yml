@@ -80,7 +80,7 @@ jobs:
     - name: graceful sleep
       run: |
         echo "sleeping to allow consul to elect leader"
-        sleep 8
+        sleep 10
 
     - name: populate consul kv
       run: |
