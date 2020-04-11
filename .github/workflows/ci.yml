@@ -111,6 +111,7 @@ jobs:
 
     - name: test mysql master
       run: |
+        ps aux | grep mysqld
         mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10570 -e "select @@port"
 
     - name: test haproxy routing to mysql master
