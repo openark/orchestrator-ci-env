@@ -11,27 +11,115 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: apt-get update
+      run: |
+        sudo apt-get update
+
+    - name: install haproxy
+      run: |
+        script/deploy-haproxy
+
+    - name: test haproxy files
+      run: |
+        ls -l /etc/haproxy/haproxy.cfg
+
+    - name: start haproxy service
+      run: |
+        script/run-haproxy || (sudo journalctl -u haproxy.service ; exit 1)
+
+    - name: test haproxy service
+      run: |
+        sudo systemctl status haproxy || (sudo journalctl -u haproxy.service ; exit 1)
+
     - name: unwrap consul
       run: |
         cd bin/linux
         gunzip consul.gz
 
-    - name: test consul
+    - name: test consul binary
       run: |
         bin/linux/consul --version
 
+    - name: deploy consul service
+      run: |
+        script/deploy-consul
+
+    - name: start consul service
+      run: |
+        script/run-consul || (sudo journalctl -u consul.service ; exit 1)
+
+    - name: test consul service
+      run: |
+        sudo systemctl status consul
+
+    - name: unwrap consul-template
+      run: |
+        cd bin/linux
+        gunzip consul-template.gz
+
+    - name: deploy consul-template service
+      run: |
+        script/deploy-consul-template
+
+    - name: test consul template binary
+      run: |
+        /usr/local/bin/consul-template --version
+
+    - name: start consul-template service
+      run: |
+        script/run-consul-template || (sudo journalctl -u consul-template.service ; exit 1)
+
+    - name: test consul-template service
+      run: |
+        sudo systemctl status consul-template || (sudo journalctl -u consul-template.service ; exit 1)
+
+    - name: test consul-template deployment
+      run: |
+        ls -l /etc/haproxy/haproxy.cfg
+
+    - name: graceful sleep
+      run: |
+        echo "sleeping to allow consul to elect leader"
+        sleep 10
+
+    - name: populate consul kv
+      run: |
+        consul kv put "mysql/master/ci/hostname" "127.0.0.1"
+        consul kv put "mysql/master/ci/port" "10571"
+
+    - name: test consul kv
+      run: |
+        if consul kv get "mysql/master/ci/port" | grep -q 10571 ; then
+          echo "Validated KV write+read"
+        else
+          echo "Failed validating consul KV"
+          exit 1
+        fi
+        if curl -s http://127.0.0.1:8500/v1/kv/mysql/master/ci/port | jq -r '.[].Value' | base64 --decode | grep -q 10571 ; then
+          echo "Validated KV read via HTTP API"
+        else
+          echo "Failed validating consul KV via HTTP API"
+          exit 1
+        fi
+
+    - name: test consul-template template
+      run: |
+        cat /etc/haproxy/haproxy.cfg
+        grep 10571 /etc/haproxy/haproxy.cfg || (sudo journalctl -u consul-template.service ; exit 1)
+
+    - name: unwrap dbdeployer
+      run: |
+        cd bin/linux
+        gunzip dbdeployer.gz
+
     - name: deploy mysql replication
       run: |
-        mkdir -p /home/runner/opt/mysql
-        bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
-        bin/linux/dbdeployer deploy replication 5.7.26 \
-          --sandbox-directory="57" \
-          --port=10570 \
-          -n 4 \
-          --gtid \
-          --repl-crash-safe \
-          --my-cnf-options="report_host=ci-host" \
-          --my-cnf-options="log_bin" \
-          --my-cnf-options="log_slave_updates" \
-          --my-cnf-options="performance_schema=0" \
-          --my-cnf-options="innodb_buffer_pool_size=32M"
+        script/deploy-replication
+
+    - name: test mysql master
+      run: |
+        mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@report_port" | grep -q 10571
+
+    - name: test haproxy routing to mysql master
+      run: |
+        mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port" | grep -q 10571

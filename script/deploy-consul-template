@@ -1,0 +1,12 @@
+#!/bin/bash
+
+[ -f bin/linux/consul-template.gz ] && (cd bin/linux ; gunzip consul-template.gz)
+
+sudo mkdir -p /etc/consul-template.d
+sudo cp files/etc/consul-template.d/haproxy.ctmpl /etc/consul-template.d/
+
+sudo cp bin/linux/consul-template /usr/local/bin/
+sudo cp files/etc/systemd/consul-template.service /etc/systemd/system/
+
+sudo chown --recursive consul:consul /etc/consul-template.d
+# sudo chown --recursive consul /etc/haproxy/

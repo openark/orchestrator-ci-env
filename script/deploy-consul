@@ -1,0 +1,17 @@
+#!/bin/bash
+
+[ -f bin/linux/consul.gz ] && (cd bin/linux ; gunzip consul.gz)
+
+sudo cp bin/linux/consul /usr/local/bin/
+sudo cp files/etc/systemd/consul.service /etc/systemd/system/
+
+sudo useradd --system --home /etc/consul.d --shell /bin/false consul
+sudo mkdir --parents /opt/consul
+sudo chown --recursive consul:consul /opt/consul
+
+sudo mkdir --parents /etc/consul.d
+sudo cp files/etc/consul.d/consul.json /etc/consul.d/
+sudo cp files/etc/consul.d/server.json /etc/consul.d/
+
+sudo chown --recursive consul:consul /etc/consul.d
+sudo chmod 640 /etc/consul.d/*.*

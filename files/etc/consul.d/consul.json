@@ -1,0 +1,5 @@
+{
+  "datacenter": "cidc",
+  "data_dir": "/opt/consul",
+  "log_level": "INFO"
+}
