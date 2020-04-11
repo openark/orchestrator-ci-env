@@ -123,4 +123,5 @@ jobs:
 
     - name: test haproxy routing to mysql master
       run: |
+        sudo cat /etc/hosts
         time mysql -uci -pci -h 127.0.0.1 --port 13306 -e "select @@port, @@report_port, @@report_host"
