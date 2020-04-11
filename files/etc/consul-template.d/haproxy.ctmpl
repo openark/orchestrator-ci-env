@@ -13,8 +13,8 @@ defaults
 	option	httplog
 	option	dontlognull
   timeout connect 1000
-  timeout client  1000
-  timeout server  1000
+  timeout client  86400000
+  timeout server  86400000
 
 frontend mysql_rw
   bind  0.0.0.0:13306
@@ -23,8 +23,8 @@ frontend mysql_rw
   maxconn 200
 
 backend mysql_rw_main
+  balance first
   retries 1
-  timeout connect 1000
 
   default-server fall 2 inter 1000 rise 1 downinter 1000 on-marked-down shutdown-sessions weight 10
   server 127.0.0.1 {{key "mysql/master/ci/hostname"}}:{{key "mysql/master/ci/port"}}
