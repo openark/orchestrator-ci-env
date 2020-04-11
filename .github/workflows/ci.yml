@@ -78,7 +78,7 @@ jobs:
         ls -l /etc/haproxy/haproxy.cfg
 
     - name: graceful sleep
-      eun: |
+      run: |
         echo "sleeping to allow consul to elect leader"
         sleep 10
 
@@ -86,7 +86,6 @@ jobs:
       run: |
         consul kv put "mysql/master/ci/hostname" "127.0.0.1"
         consul kv put "mysql/master/ci/port" "10570"
-        consul kv put "citest" "17"
 
     - name: test consul kv
       run: |
@@ -96,7 +95,12 @@ jobs:
           echo "Failed validating consul KV"
           exit 1
         fi
-        curl http://127.0.0.1:8500/v1/kv/citest | jq -r '.[].Value' | base64 --decode
+        if curl -s http://127.0.0.1:8500/v1/kv/mysql/master/ci/port | jq -r '.[].Value' | base64 --decode | grep -q 10570 ; then
+          echo "Validated KV read via HTTP API"
+        else
+          echo "Failed validating consul KV via HTTP API"
+          exit 1
+        fi
 
     - name: test consul-template template
       run: |
