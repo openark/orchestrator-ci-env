@@ -77,10 +77,13 @@ jobs:
       run: |
         ls -l /etc/haproxy/haproxy.cfg
 
+    - name: graceful sleep
+      eun: |
+        echo "sleeping to allow consul to elect leader"
+        sleep 10
+
     - name: populate consul kv
       run: |
-        echo "sleeping to allow consul to elect leader"
-        sleep 3
         consul kv put "mysql/master/ci/hostname" "127.0.0.1"
         consul kv put "mysql/master/ci/port" "10570"
         consul kv put "citest" "17"
@@ -112,8 +115,8 @@ jobs:
     - name: test mysql master
       run: |
         ps aux | grep mysqld
-        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10570 -e "select @@port"
+        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 10570 -e "select @@port, @@report_port, @@report_host"
 
     - name: test haproxy routing to mysql master
       run: |
-        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 13306 -e "select @@port"
+        mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 13306 -e "select @@port, @@report_port, @@report_host"
