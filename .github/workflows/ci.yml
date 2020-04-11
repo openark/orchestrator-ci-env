@@ -123,6 +123,7 @@ jobs:
 
     - name: test haproxy routing to mysql master debug
       run: |
+        grep -FR bin /home/runner/sandboxes/57/
         mysql -umsandbox -pmsandbox -h 127.0.0.1 --port 13305 -e "select @@port, @@report_port, @@report_host"
 
     - name: test haproxy routing to mysql master
