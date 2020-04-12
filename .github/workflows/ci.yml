@@ -137,10 +137,10 @@ jobs:
       run: |
         sleep 1
         ts1="$(mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select ts from test.heartbeat")"
-        sleep 1
+        sleep 1.5
         ts2="$(mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select ts from test.heartbeat")"
 
-        if [ "$ts1" != "$ts2" ] ; then
+        if [ "$ts1" == "$ts2" ] ; then
           echo "heartbeat test fail: '$ts1'=='$ts2'"
           exit 1
         fi
