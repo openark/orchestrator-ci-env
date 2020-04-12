@@ -20,6 +20,6 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --my-cnf-options="log_bin" \
   --my-cnf-options="log_slave_updates" \
   --my-cnf-options="performance_schema=0" \
-  --my-cnf-options="innodb_buffer_pool_size=32M"
+  --my-cnf-options="innodb_buffer_pool_size=32M" \
   --my-cnf-options="read_only=1"
 ~/sandboxes/57/m -e "set global read_only=0"
