@@ -122,6 +122,7 @@ jobs:
 
     - name: test read_only
       run: |
+        ~/sandboxes/57/use_all "select @@global.read_only"
         ro="$(mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@global.read_only")"
         if [ "$ro" != "0" ] ; then
           echo "expected read_only=0 on master, got $ro"
