@@ -135,8 +135,9 @@ jobs:
 
     - name: test heartbeat
       run: |
-        sudo journalctl -u mysql-heartbeat.service
         ps auxfw | grep -A2 -B2 heartbeat
         for i in {1..5} ; do
-          mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select *, sleep(1) from test.heartbeat"
+          sleep 1
+          sudo journalctl -u mysql-heartbeat.service
+          mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select * from test.heartbeat"
         done
