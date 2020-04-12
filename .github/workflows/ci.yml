@@ -120,6 +120,20 @@ jobs:
       run: |
         mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@report_port" | grep -q 10571
 
+    - name: test read_only
+      run: |
+        ro="$(mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@global.read_only")"
+        if [ "$ro" != "0" ] ; then
+          echo "expected read_only=0 on master, got $ro"
+          exit 1
+        fi
+        ro="$(mysql -uci -pci -h 127.0.0.1 --port 10572 -s -s -e "select @@global.read_only")"
+        if [ "$ro" != "1" ] ; then
+          echo "expected read_only=1 on replica, got $ro"
+          exit 1
+        fi
+        echo "read_only" validated
+
     - name: test haproxy routing to mysql master
       run: |
         mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port" | grep -q 10571
