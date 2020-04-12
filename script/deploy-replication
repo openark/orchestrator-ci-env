@@ -2,9 +2,9 @@
 
 [ -f bin/linux/dbdeployer.gz ] && (cd bin/linux ; gunzip dbdeployer.gz)
 
-~/sandboxes/57/stop_all
-dbdeployer delete 57
-sudo rm -rf ~/sandboxes/57
+~/sandboxes/57/stop_all || :
+dbdeployer delete 57 || :
+sudo rm -rf ~/sandboxes/57 || :
 
 mkdir -p ~/opt/mysql
 bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
