@@ -17,3 +17,5 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --my-cnf-options="log_slave_updates" \
   --my-cnf-options="performance_schema=0" \
   --my-cnf-options="innodb_buffer_pool_size=32M"
+
+mysql -uci -pci -h 127.0.0.1 --port 10571 < sql/heartbeat.sql

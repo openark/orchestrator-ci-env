@@ -123,3 +123,18 @@ jobs:
     - name: test haproxy routing to mysql master
       run: |
         mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port" | grep -q 10571
+
+
+    - name: deploy mysql heartbeat
+      run: |
+        script/deploy-heartbeat
+
+    - name: start mysql heartbeat service
+      run: |
+        script/run-heartbeat || (sudo journalctl -u mysql-heartbeat.service ; exit 1)
+
+    - name: test heartbeat
+      run: |
+        for i in 1..3 ; do
+          mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select *, sleep(1) from test.heartbeat"
+        done
