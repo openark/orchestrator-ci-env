@@ -2,3 +2,5 @@
 
 sudo cp bin/linux/heartbeat.sh /usr/local/bin/
 sudo cp files/etc/systemd/mysql-heartbeat.service /etc/systemd/system/
+
+mysql -uci -pci -h 127.0.0.1 --port 10571 test < sql/heartbeat.sql
