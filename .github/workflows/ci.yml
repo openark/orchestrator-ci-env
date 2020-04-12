@@ -135,9 +135,13 @@ jobs:
 
     - name: test heartbeat
       run: |
-        ps auxfw | grep -A2 -B2 heartbeat
-        for i in {1..5} ; do
-          sleep 1
-          sudo journalctl -u mysql-heartbeat.service
-          mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select * from test.heartbeat"
-        done
+        sleep 1
+        ts1="$(mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select ts from test.heartbeat")"
+        sleep 1
+        ts2="$(mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select ts from test.heartbeat")"
+
+        if [ "$ts1" != "$ts2" ] ; then
+          echo "heartbeat test fail: '$ts1'=='$ts2'"
+          exit 1
+        fi
+        echo "heartbeat test success: '$ts1'!='$ts2'"
