@@ -85,17 +85,17 @@ jobs:
     - name: populate consul kv
       run: |
         consul kv put "mysql/master/ci/hostname" "127.0.0.1"
-        consul kv put "mysql/master/ci/port" "10571"
+        consul kv put "mysql/master/ci/port" "10111"
 
     - name: test consul kv
       run: |
-        if consul kv get "mysql/master/ci/port" | grep -q 10571 ; then
+        if consul kv get "mysql/master/ci/port" | grep -q 10111 ; then
           echo "Validated KV write+read"
         else
           echo "Failed validating consul KV"
           exit 1
         fi
-        if curl -s http://127.0.0.1:8500/v1/kv/mysql/master/ci/port | jq -r '.[].Value' | base64 --decode | grep -q 10571 ; then
+        if curl -s http://127.0.0.1:8500/v1/kv/mysql/master/ci/port | jq -r '.[].Value' | base64 --decode | grep -q 10111 ; then
           echo "Validated KV read via HTTP API"
         else
           echo "Failed validating consul KV via HTTP API"
@@ -105,7 +105,7 @@ jobs:
     - name: test consul-template template
       run: |
         cat /etc/haproxy/haproxy.cfg
-        grep 10571 /etc/haproxy/haproxy.cfg || (sudo journalctl -u consul-template.service ; exit 1)
+        grep 10111 /etc/haproxy/haproxy.cfg || (sudo journalctl -u consul-template.service ; exit 1)
 
     - name: unwrap dbdeployer
       run: |
@@ -118,16 +118,16 @@ jobs:
 
     - name: test mysql master
       run: |
-        mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@report_port" | grep -q 10571
+        mysql -uci -pci -h 127.0.0.1 --port 10111 -s -s -e "select @@report_port" | grep -q 10111
 
     - name: test read_only
       run: |
-        ro="$(mysql -uci -pci -h 127.0.0.1 --port 10571 -s -s -e "select @@global.read_only")"
+        ro="$(mysql -uci -pci -h 127.0.0.1 --port 10111 -s -s -e "select @@global.read_only")"
         if [ "$ro" != "0" ] ; then
           echo "expected read_only=0 on master, got $ro"
           exit 1
         fi
-        ro="$(mysql -uci -pci -h 127.0.0.1 --port 10572 -s -s -e "select @@global.read_only")"
+        ro="$(mysql -uci -pci -h 127.0.0.1 --port 10112 -s -s -e "select @@global.read_only")"
         if [ "$ro" != "1" ] ; then
           echo "expected read_only=1 on replica, got $ro"
           exit 1
@@ -136,7 +136,7 @@ jobs:
 
     - name: test haproxy routing to mysql master
       run: |
-        mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port" | grep -q 10571
+        mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port" | grep -q 10111
 
 
     - name: deploy mysql heartbeat

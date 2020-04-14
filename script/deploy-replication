@@ -2,15 +2,15 @@
 
 [ -f bin/linux/dbdeployer.gz ] && (cd bin/linux ; gunzip dbdeployer.gz)
 
-~/sandboxes/57/stop_all || :
-dbdeployer delete 57 || :
-sudo rm -rf ~/sandboxes/57 || :
+~/sandboxes/ci/stop_all || :
+dbdeployer delete ci || :
+sudo rm -rf ~/sandboxes/ci || :
 
 mkdir -p ~/opt/mysql
 bin/linux/dbdeployer unpack mysql-tarballs/mysql-5.7.26.tar.xz
 bin/linux/dbdeployer deploy replication 5.7.26 \
-  --sandbox-directory="57" \
-  --base-port=10570 \
+  --sandbox-directory="ci" \
+  --base-port=10110 \
   -n 4 \
   --gtid \
   --repl-crash-safe \
@@ -22,4 +22,4 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --my-cnf-options="performance_schema=0" \
   --my-cnf-options="innodb_buffer_pool_size=32M" \
   --my-cnf-options="read_only=1"
-~/sandboxes/57/m -e "set global read_only=0"
+~/sandboxes/ci/m -e "set global read_only=0"
