@@ -1,3 +1,5 @@
 #!/bin/bash
 
+mysql -uci -pci -h 127.0.0.1 --port 10111 test < sql/heartbeat.sql
+
 sudo systemctl start mysql-heartbeat
