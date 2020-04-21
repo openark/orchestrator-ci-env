@@ -13,4 +13,4 @@ RUN script/deploy-consul
 RUN script/deploy-consul-template
 RUN script/deploy-heartbeat
 
-CMD script/docker-entry
+CMD script/docker-entry ; /bin/bash

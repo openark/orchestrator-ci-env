@@ -15,5 +15,3 @@ PATH=$PATH:~/opt/mysql/5.7.26/bin/
 
 mysql -uci -pci -h 127.0.0.1 --port 10111 -s -s -e "select @@report_port"
 mysql -uci -pci -h 127.0.0.1 --port 13306 -s -s -e "select @@report_port"
-
-/bin/bash
