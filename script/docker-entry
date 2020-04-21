@@ -4,6 +4,7 @@ script/deploy-replication
 script/run-haproxy
 script/run-consul
 script/run-consul-template
+script/run-heartbeat
 
 sleep 3
 consul kv put "mysql/master/ci/hostname" "127.0.0.1"

@@ -11,5 +11,6 @@ RUN cp bin/linux/systemctl.py /usr/bin/systemctl
 RUN script/deploy-haproxy
 RUN script/deploy-consul
 RUN script/deploy-consul-template
+RUN script/deploy-heartbeat
 
 CMD script/docker-entry
