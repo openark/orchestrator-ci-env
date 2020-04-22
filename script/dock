@@ -1,4 +1,10 @@
 #!/bin/bash
 
 docker build . -f Dockerfile -t "orchestrator-ci-env" &&
-  docker run --privileged=true -v /sys/fs/cgroup:/sys/fs/cgroup:ro --cap-add SYS_ADMIN --rm -it "orchestrator-ci-env:latest"
+  docker run --rm -it \
+    -p 13306:13306 \
+    -p 10111:10111 \
+    -p 10112:10112 \
+    -p 10113:10113 \
+    -p 10114:10114 \
+    "orchestrator-ci-env:latest"
