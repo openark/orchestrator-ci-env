@@ -1,8 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get update -q -y
-RUN apt-get install -y sudo haproxy python
-RUN apt-get install -y libaio1 libnuma1
+RUN apt-get install -y sudo haproxy python mysql-client libaio1 libnuma1
 
 COPY . .
 
