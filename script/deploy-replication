@@ -15,6 +15,7 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --gtid \
   --repl-crash-safe \
   --pre-grants-sql="grant all on *.* to ci@'%' identified by 'ci'" \
+  --pre-grants-sql="grant all on test.* to heartbeat@'%' identified by 'heartbeat'" \
   --my-cnf-options="report_host=127.0.0.1" \
   --my-cnf-options="bind_address=0.0.0.0" \
   --my-cnf-options="log_bin" \
