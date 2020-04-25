@@ -7,4 +7,5 @@ docker build . -f Dockerfile -t "orchestrator-ci-env" &&
     -p 10112:10112 \
     -p 10113:10113 \
     -p 10114:10114 \
+    -p 8500:8500 \
     "orchestrator-ci-env:latest"

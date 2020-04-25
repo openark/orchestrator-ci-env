@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get update -q -y # cache
-RUN apt-get install -y sudo haproxy python mysql-client libaio1 libnuma1 # cache
+RUN apt-get install -y sudo haproxy python mysql-client libaio1 libnuma1 lsof net-tools vim less jq curl # cache
 
 COPY . .
 
