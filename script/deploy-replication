@@ -27,5 +27,5 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --my-cnf-options="innodb_buffer_pool_size=32M" \
   --my-cnf-options="slave_net_timeout=2" \
   --my-cnf-options="read_only=1" \
-  --use-template=init_slave_template:/etc/dbdeployer/init-replicas.tmpl
+  --use-template=init_slaves_template:/etc/dbdeployer/init-replicas.tmpl
 ~/sandboxes/ci/m -e "set global read_only=0"
