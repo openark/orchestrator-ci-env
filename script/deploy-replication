@@ -2,6 +2,9 @@
 
 [ -f bin/linux/dbdeployer.gz ] && (cd bin/linux ; gunzip dbdeployer.gz)
 
+sudo mkdir -p /etc/dbdeployer
+sudo cp files/etc/dbdeployer/init-replicas.tmpl /etc/dbdeployer/
+
 ~/sandboxes/ci/stop_all || :
 bin/linux/dbdeployer delete ci || :
 sudo rm -rf ~/sandboxes/ci || :
@@ -23,5 +26,6 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --my-cnf-options="performance_schema=0" \
   --my-cnf-options="innodb_buffer_pool_size=32M" \
   --my-cnf-options="slave_net_timeout=2" \
-  --my-cnf-options="read_only=1"
+  --my-cnf-options="read_only=1" \
+  --use-template=init_slaves_template:/etc/dbdeployer/init-replicas.tmpl
 ~/sandboxes/ci/m -e "set global read_only=0"
