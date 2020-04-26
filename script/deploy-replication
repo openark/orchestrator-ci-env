@@ -3,7 +3,7 @@
 [ -f bin/linux/dbdeployer.gz ] && (cd bin/linux ; gunzip dbdeployer.gz)
 
 ~/sandboxes/ci/stop_all || :
-dbdeployer delete ci || :
+bin/linux/dbdeployer delete ci || :
 sudo rm -rf ~/sandboxes/ci || :
 
 mkdir -p ~/opt/mysql
