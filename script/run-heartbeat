@@ -2,4 +2,4 @@
 
 mysql -uheartbeat -pheartbeat -h 127.0.0.1 --port 10111 test < sql/heartbeat.sql
 
-sudo systemctl start mysql-heartbeat
+sudo systemctl restart mysql-heartbeat
