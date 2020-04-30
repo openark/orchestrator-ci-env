@@ -1,15 +1,10 @@
 #!/bin/bash
 
+script/run-consul
 script/deploy-replication
 script/run-haproxy
-script/run-consul
 script/run-consul-template
 script/run-heartbeat
-
-sleep 3
-consul kv put "mysql/master/ci/hostname" "127.0.0.1"
-consul kv put "mysql/master/ci/port" "10111"
-sleep 3
 
 PATH=$PATH:~/opt/mysql/5.7.26/bin/
 
