@@ -28,6 +28,7 @@ bin/linux/dbdeployer deploy replication 5.7.26 \
   --my-cnf-options="read_only=1" \
   --my-cnf-options="plugin-load-add=semisync_master.so" \
   --my-cnf-options="plugin-load-add=semisync_slave.so" \
+  --my-cnf-options="rpl_semi_sync_master_timeout=60000" \
   --change-master-options="MASTER_CONNECT_RETRY=1" \
   --change-master-options="MASTER_RETRY_COUNT=3600" \
   --change-master-options="MASTER_HEARTBEAT_PERIOD=1"
