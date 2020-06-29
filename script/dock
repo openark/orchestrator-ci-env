@@ -1,5 +1,7 @@
 #!/bin/bash
 
+REPORT_HOSTNAME=${1:-127.0.0.1}
+
 docker build . -f Dockerfile -t "orchestrator-ci-env" &&
   docker run --rm -it \
     -p 13306:13306 \
@@ -8,4 +10,5 @@ docker build . -f Dockerfile -t "orchestrator-ci-env" &&
     -p 10113:10113 \
     -p 10114:10114 \
     -p 8500:8500 \
+    -e "REPORT_HOSTNAME=$REPORT_HOSTNAME" \
     "orchestrator-ci-env:latest"

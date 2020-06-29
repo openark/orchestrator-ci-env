@@ -1,7 +1,9 @@
 #!/bin/bash
 
+REPORT_HOSTNAME=${REPORT_HOSTNAME:-127.0.0.1}
+
 script/run-consul
-script/deploy-replication
+script/deploy-replication "$REPORT_HOSTNAME"
 script/run-haproxy
 script/run-consul-template
 script/run-heartbeat
